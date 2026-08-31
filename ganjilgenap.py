@@ -1,60 +1,86 @@
-def cek_ganjil_genap():
-    print("\n--- CEK GANJIL / GENAP ---")
-    try:
-        angka = int(input("Masukkan sebuah angka: "))
-        if angka % 2 == 0:
-            print(f"-> {angka} adalah bilangan GENAP.")
-        else:
-            print(f"-> {angka} adalah bilangan GANJIL.")
-    except ValueError:
-        print("-> Input tidak valid! Harap masukkan angka (bilangan bulat).")
-
-def cek_prima():
-    print("\n--- CEK BILANGAN PRIMA ---")
-    try:
-        angka = int(input("Masukkan sebuah angka: "))
-        # Bilangan prima harus lebih besar dari 1
-        if angka > 1:
-            is_prima = True
-            # Mengecek faktor pembagi dari 2 hingga akar kuadrat angka tersebut
-            for i in range(2, int(angka ** 0.5) + 1):
-                if angka % i == 0:
-                    is_prima = False
-                    break
-            
-            if is_prima:
-                print(f"-> {angka} ADALAH bilangan prima.")
-            else:
-                print(f"-> {angka} BUKAN bilangan prima.")
-        else:
-            print(f"-> {angka} BUKAN bilangan prima.")
-    except ValueError:
-        print("-> Input tidak valid! Harap masukkan angka (bilangan bulat).")
-
-def main():
+def jalankan_modul_matematika():
+    # List untuk menyimpan riwayat perhitungan
+    riwayat = []
+    
     while True:
         print("\n" + "="*30)
-        print("          MENU UTAMA          ")
+        print(" KALKULATOR MATEMATIKA DASAR")
         print("="*30)
-        print("a. Cek Ganjil / Genap")
-        print("b. Cek Bilangan Prima / Bukan")
-        print("c. Exit")
+        print("1. Penjumlahan")
+        print("2. Pengurangan")
+        print("3. Perkalian")
+        print("4. Cek Ganjil atau Genap")
+        print("5. Cek Bilangan Prima")
+        print("X. Keluar")
         print("="*30)
         
-        # .lower() digunakan agar input 'A' besar tetap terbaca sebagai 'a' kecil
-        pilihan = input("Pilih menu (a/b/c): ").lower() 
+        pilihan = input("Masukkan pilihan Anda (1-5 atau X): ").strip().upper()
         
-        if pilihan == 'a':
-            cek_ganjil_genap()
-        elif pilihan == 'b':
-            cek_prima()
-        elif pilihan == 'c':
-            print("\nTerima kasih! Program dihentikan.\n")
-            break # Perintah break digunakan untuk keluar dari loop (menghentikan program)
+        if pilihan == 'X':
+            # Menampilkan riwayat sebelum keluar
+            print("\n" + "="*30)
+            print("      RIWAYAT PERHITUNGAN")
+            print("="*30)
+            if not riwayat:
+                print("Tidak ada perhitungan yang dilakukan.")
+            else:
+                for i, catatan in enumerate(riwayat, 1):
+                    print(f"{i}. {catatan}")
+            print("="*30)
+            print("Keluar dari program. Sampai jumpa!\n")
+            break
+            
+        # Perhitungan yang membutuhkan dua angka
+        if pilihan in ['1', '2', '3']:
+            try:
+                angka1 = float(input("Masukkan angka pertama: "))
+                angka2 = float(input("Masukkan angka kedua: "))
+                
+                if pilihan == '1':
+                    hasil_teks = f"{angka1} + {angka2} = {angka1 + angka2}"
+                elif pilihan == '2':
+                    hasil_teks = f"{angka1} - {angka2} = {angka1 - angka2}"
+                elif pilihan == '3':
+                    hasil_teks = f"{angka1} * {angka2} = {angka1 * angka2}"
+                
+                print(f"\nHasil: {hasil_teks}")
+                riwayat.append(hasil_teks) # Menyimpan ke riwayat
+                
+            except ValueError:
+                print("\nKesalahan: Harap masukkan nilai angka yang valid.")
+                
+        # Perhitungan yang membutuhkan satu angka bulat (integer)
+        elif pilihan in ['4', '5']:
+            try:
+                angka = int(input("Masukkan bilangan bulat: "))
+                
+                if pilihan == '4':
+                    status = "Genap" if angka % 2 == 0 else "Ganjil"
+                    hasil_teks = f"{angka} adalah bilangan {status}."
+                    
+                elif pilihan == '5':
+                    if angka <= 1:
+                        hasil_teks = f"{angka} BUKAN bilangan prima."
+                    else:
+                        is_prime = True
+                        for i in range(2, int(angka ** 0.5) + 1):
+                            if angka % i == 0:
+                                is_prime = False
+                                break
+                        
+                        if is_prime:
+                            hasil_teks = f"{angka} ADALAH bilangan prima."
+                        else:
+                            hasil_teks = f"{angka} BUKAN bilangan prima."
+                            
+                print(f"\nHasil: {hasil_teks}")
+                riwayat.append(hasil_teks) # Menyimpan ke riwayat
+                
+            except ValueError:
+                print("\nKesalahan: Harap masukkan bilangan bulat untuk operasi ini.")
+                
         else:
-            print("\n-> Pilihan tidak valid! Silakan ketik a, b, atau c.")
+            print("\nPilihan tidak valid. Harap masukkan angka antara 1 dan 5, atau X untuk keluar.")
 
-# Menjalankan program utama
 if __name__ == "__main__":
-    main()
-    
+    jalankan_modul_matematika()
